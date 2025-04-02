@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/quizpage.css">
+    <script src="../scripts/fetch_quiz_info.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <a href="../html/homepage.html" class="header-link">Home</a>
+    </div>
+
+    <div id="content-container">
+        <div id="timer" class="hidden _timer">Time Remaining: <span id="time-left"></span>mins</div>
+        <div id="quiz-container">
+            <div class="info">
+                <p class="quiz-title">Quiz Title</p>
+                <div class="sub-container">
+                    <p class="time-content">Time Limit: 20</p>
+                    <p class="score-content">Max Score: 30</p>
+                </div>
+
+                <p class="quiz-description">Quiz Description</p>
+            </div>
+
+            <button class="start-btn">Start</button>
+        </div>
+    </div>
+</body>
+
+</html>
