@@ -1,0 +1,99 @@
+body{
+    margin: 0;
+}
+
+#header{
+    width: 100%;
+    height: 25px;
+    background-color: #7B7B7B;
+    display: flex;
+    padding: 20px 40px;
+    border-radius: 0px 0px 25px 25px;
+}
+
+#header a{
+    color: white;
+
+}
+
+#header a:hover{
+    color:black;
+}
+
+#content-container{
+    display: flex;
+    justify-content: center;
+    padding: 50px 50px;
+}
+.container-title{
+    text-align: center;
+    font-size: 50px;
+    color:white;
+}
+
+#quizzes-container{
+    background-color: #404040;
+    border-radius: 50px;
+    width: 80%;
+    align-content: center;
+    padding-bottom: 50px
+}
+
+#quiz-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}
+
+.quiz-container{
+    background: linear-gradient(to bottom, #EDEDED, #D3D3D3);
+    border-radius: 25px;
+    width: 80%;
+    align-content: center;
+    padding: 0 30px;
+}
+
+.quiz-header{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.quiz-title{
+    margin: 5px 5px 5px 0;
+    text-align: left;
+    align-self: center;
+    font-size: 32px;
+}
+
+.time-content{
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+}
+
+.quiz-description{
+
+    align-self: center;
+}
+
+.description-content{
+    margin: 0;
+    text-align: left;
+}
+
+.quiz-footer{
+    display: flex;
+    justify-content: right;
+}
+
+.fullmark-container{
+    display: flex;
+    gap: 5px
+}
+
+.fullmark-content .fullmark{
+    font-size: 16px;
+}
+
