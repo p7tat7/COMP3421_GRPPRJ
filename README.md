@@ -11,5 +11,10 @@ For the src folder:
 <p>Replace the index.php in xampp/htdocs folder</p>
 
 <br>
-<p>For the data folder:</p>
-<p>Copy the folder inside data folder to xampp/mysql/data folder, i.e. "<path_to_xampp>/mysql/data"</p>
+<p>For the quiz_list.sql</p>
+<ol>
+  <li>Go to phpMyAdmin and create a table called "quiz_list"</li>
+  <li>Go to the Shell of xampp</li>
+  <li>Enter the command: "mysql -u root -p quiz_list < "absolute_path_of_quiz_list.sql"</li>
+</ol>
+<p>If password is needed, just press Enter if you did not set any password before</p>
