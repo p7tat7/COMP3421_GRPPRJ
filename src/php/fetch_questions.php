@@ -29,6 +29,7 @@ $question_query->execute();
 $question_result = $question_query->get_result();
 $questions = [];
 while ($row = $question_result->fetch_assoc()) {
+    $questions[$row['question_id']]['question_id'] = $row['question_id'];
     $questions[$row['question_id']]['question_text'] = $row['question_text'];
     $questions[$row['question_id']]['answers'][] = [
         "answer_id" => $row['answer_id'],
