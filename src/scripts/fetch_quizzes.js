@@ -24,8 +24,7 @@ fetch("../php/fetch_quizzes.php")
                     </p>
                     <div class="time-content">
                         <p>Time: </p>
-                        <p class="time">${quiz.time_set}</p>
-                        <p>minutes</p>
+                        <p class="time">${String(quiz.time_set).padStart(2, '0')}:00</p>
                     </div>
                 </div>
 

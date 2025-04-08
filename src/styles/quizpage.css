@@ -68,11 +68,17 @@
     margin: 10px 0;
     font-size: 20px;
     padding: 10px 20px;
+    gap: 20px;
 }
 
 .unanswered {
     border: 2px solid red;
     padding: 10px;
+}
+
+.no-answer {
+    color: red;
+    font-weight: bold;
 }
 
 .correct {
@@ -87,3 +93,4 @@
 .hidden{
     display: none;
 }
+
