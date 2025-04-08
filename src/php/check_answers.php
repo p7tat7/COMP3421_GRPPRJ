@@ -48,7 +48,7 @@ foreach ($userAnswers as $entry) {
 echo json_encode([
     "score" => $score,
     "total" => $total,
-    "correctAnswers" => $correctAnswers
+    "correctAnswers" => $correctAnswers,
 ]);
 $conn->close();
 ?>

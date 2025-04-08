@@ -3,6 +3,7 @@ let timeLeft = 0;
 let timerInterval;
 let quiz_title = "";
 let quizId = -1;
+let max_score = -1;
 
 // Fetch quiz's information
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`../php/fetch_quiz_info.php?id=${quizId}`)
         .then(response => response.json()) // Convert response to JSON
         .then(data => {
+            max_score = data.quiz.max_score;
             const quizContainer = document.getElementById("quiz-container");
             quizContainer.innerHTML = ""; // Clear previous content
 
@@ -51,51 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error fetching quizzes:", error));
 });
 
-// function startLoadingQuiz(){
-//     const quizContainer = document.getElementById("quiz-container");
-//     quizContainer.classList.add('animate__animated', 'animate__fadeOut');
-//     quizContainer.addEventListener('animationend', function handler() {
-//         quizContainer.classList.remove('animate__fadeOut');
-        
-//         startQuiz();
-
-//         // Fade in new content
-//         quizContainer.classList.add('animate__fadeIn');
-    
-//         // Cleanup after fadeIn finishes
-//         quizContainer.addEventListener('animationend', function innerHandler() {
-//             startTimer();
-//             quizContainer.classList.remove('animate__animated', 'animate__fadeIn');
-//             quizContainer.removeEventListener('animationend', innerHandler);
-//         });
-    
-//         quizContainer.removeEventListener('animationend', handler);
-        
-//     });
-// }
-
-// function endLoadingQuiz(){
-//     const quizContainer = document.getElementById("quiz-container");
-//     quizContainer.classList.add('animate__animated', 'animate__fadeOut');
-//     quizContainer.addEventListener('animationend', function handler() {
-//         quizContainer.classList.remove('animate__fadeOut');
-        
-//         endQuiz();
-
-//         // Fade in new content
-//         quizContainer.classList.add('animate__fadeIn');
-    
-//         // Cleanup after fadeIn finishes
-//         quizContainer.addEventListener('animationend', function innerHandler() {
-//             quizContainer.classList.remove('animate__animated', 'animate__fadeIn');
-//             quizContainer.removeEventListener('animationend', innerHandler);
-//         });
-    
-//         quizContainer.removeEventListener('animationend', handler);
-        
-//     });
-// }
-
 // Fetch the questions of the quiz and start the quiz
 function startQuiz() {
     fetch(`../php/fetch_questions.php?id=${quizId}`)
@@ -103,7 +60,6 @@ function startQuiz() {
     .then(data => {
         const quizContainer = document.getElementById("quiz-container");
         quizContainer.innerHTML = ""; // Clear previous content
-
         if (data.error){
             const alert = document.createElement("div");
             alert.classList.add("quiz_error");
@@ -160,7 +116,7 @@ function startQuiz() {
 
         questionsContainer.addEventListener("submit", function(e){
             e.preventDefault();
-            animateContentUpdate(() => submitQuiz(e));
+            submitQuiz(e);
         });
 
         
@@ -206,6 +162,7 @@ function submitQuiz(e){
         const questionId = question.dataset.questionId;
         const selected = question.querySelector(`input[name="question_${questionId}"]:checked`);
         if (selected){
+            question.classList.remove("unanswered");
             answers.push({
                 question_id: questionId,
                 selected_answer_id: selected.value
@@ -218,15 +175,16 @@ function submitQuiz(e){
     if (firstUnanswered){
         firstUnanswered.scrollIntoView({ behavior: "smooth", block: "center" });
         firstUnanswered.classList.add("unanswered");
-        alert("Please answer all questions before submitting.");
+        //alert("Please answer all questions before submitting.");
         return;
     }
-
     clearInterval(timerInterval);
     document.getElementById("timer").classList.add("hidden");
     document.getElementById("submit-btn").classList.add("hidden");
+    animateContentUpdate(() => checkAnswers(answers));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    checkAnswers(answers);
+    
 }
 
 function checkAnswers(answers){
@@ -240,7 +198,7 @@ function checkAnswers(answers){
     .then(res => res.json())
     .then(data => {
         const resultBox = document.getElementById("result-field");
-        resultBox.textContent = `Total: ${data.score} / ${data.total}`;
+        resultBox.textContent = `Total: ${Math.floor(data.score/data.total*max_score)} / ${max_score}`;
         resultBox.classList.remove("hidden");
 
         document.querySelectorAll("input[type='radio']").forEach(radio => {
@@ -298,27 +256,29 @@ function endQuiz(){
         }
     });
 
-    
-
-    checkAnswers(answers);
-    unanswered.forEach(ans => {
-        ans.classList.add("no-answer");
+    Swal.fire({
+        icon: 'warning',
+        title: '⏰ Time’s Up!',
+        text: 'Your quiz is being submitted automatically.',
+        confirmButtonText: 'OK',
+        allowOutsideClick: false,
+    }).then(() => {
+        checkAnswers(answers);
+        unanswered.forEach(ans => {
+            ans.classList.add("no-answer");
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    alert("Time's up! Quiz Over.");
 }
 
 function shuffle(array) {
     let currentIndex = array.length;
 
-    // While there remain elements to shuffle...
     while (currentIndex != 0) {
 
-        // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
@@ -332,7 +292,6 @@ function animateContentUpdate(updateFunction) {
     container.addEventListener('animationend', function handler() {
         container.classList.remove('animate__fadeOut');
 
-        // 💡 Run your content update logic here
         if (typeof updateFunction === "function") {
             updateFunction();
         }

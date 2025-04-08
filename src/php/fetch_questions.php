@@ -39,10 +39,10 @@ while ($row = $question_result->fetch_assoc()) {
 }
 $questions = array_values($questions);
 
+$connection->close();
+
 header('Content-Type: application/json');
 echo json_encode([
-    "questions" => $questions
+    "questions" => $questions,
 ]);
-
-$connection->close();
 ?>

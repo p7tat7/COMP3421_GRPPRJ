@@ -4,80 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="../styles/homepage.css">
+    <title>Quiz App - Home</title>
     <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/homepage.css">
     <script src="../scripts/fetch_quizzes.js"></script>
+    <script src="../scripts/theme-switcher.js"></script>
 </head>
 
 <body>
     <div id="header">
-        <a href="../html/homepage.html" class="header-link">Home</a>
+        <div class="header-left">
+            <a href="../html/homepage.html" class="header-link">Quiz App</a>
+        </div>
+        <div class="header-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="theme-switch">
+                    <input type="checkbox" id="theme-switch" onchange="toggleTheme(event)" />
+                    <span class="slider"></span>
+                </label>
+                <span id="theme-icon" class="theme-icon">☀️</span>
+            </div>
+        </div>
     </div>
 
     <div id="content-container">
         <div id="quizzes-container">
             <h1 class="container-title">
-                Quiz List
+                Available Quizzes
             </h1>
 
             <div id="quiz-layout">
-                <div class="quiz-container">
-                    <div class="quiz-header">
-                        <p class="quiz-title">
-                            Quiz Name
-                        </p>
-                        <div class="time-content">
-                            <p>Time: </p>
-                            <p class="time">20</p>
-                            <p>minutes</p>
-                        </div>
-                    </div>
-
-                    <div class="quiz-description">
-                        <p class="description-content">
-                            Quiz Description
-                        </p>
-                    </div>
-
-                    <div class="quiz-footer">
-                        <div class="fullmark-container">
-                            <p class="fullmark-content">
-                                Full Mark:
-                            <p class="fullmark">30</p>
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="quiz-container">
-                    <div class="quiz-header">
-                        <p class="quiz-title">
-                            Quiz Name
-                        </p>
-                        <div class="time-content">
-                            <p>Time: </p>
-                            <p class="time">20</p>
-                            <p>minutes</p>
-                        </div>
-                    </div>
-
-                    <div class="quiz-description">
-                        <p class="description-content">
-                            Quiz Description
-                        </p>
-                    </div>
-
-                    <div class="quiz-footer">
-                        <div class="fullmark-container">
-                            <p class="fullmark-content">
-                                Full Mark:
-                            <p class="fullmark">30</p>
-                            </p>
-                        </div>
-                    </div>
-
+                <!-- Quiz items will be loaded here by JavaScript -->
+                <div class="noquiz_message">
+                    <p>Loading quizzes...</p>
                 </div>
             </div>
         </div>
