@@ -1,9 +1,14 @@
 
 <?php
+$host = "sql308.infinityfree.com";
+$db = "if0_38702591_quiz_list";
+$user = "if0_38702591";
+$pass = "21093596D3421";
 header("Content-Type: application/json");
 
 // Database connection
-$conn = new mysqli("localhost", "root", "", "quiz_list");
+//$conn = new mysqli("localhost", "root", "", "quiz_list");
+$conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     http_response_code(500);
     echo json_encode(["error" => "DB connection failed"]);

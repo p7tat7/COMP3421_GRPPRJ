@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Fetch the questions of the quiz and start the quiz
-function startQuiz() {
-    fetch(`../php/fetch_questions.php?id=${quizId}`)
+async function startQuiz() {
+    await fetch(`../php/fetch_questions.php?id=${quizId}`)
     .then(response => response.json()) // Convert response to JSON
     .then(data => {
         const quizContainer = document.getElementById("quiz-container");
@@ -129,15 +129,15 @@ function startQuiz() {
         //submit_btn.addEventListener("click", endQuiz);
         quizContainer.appendChild(questionsContainer);
         
-        
+        // Start timer
+        document.getElementById("time-left").textContent = `${String(Math.floor(timeLeft/60)).padStart(2, '0')}:${String(timeLeft%60).padStart(2, '0')}`;
+        document.getElementById("timer").classList.remove("hidden");
+
+        startTimer();
     })
     .catch(error => console.error("Error fetching quizzes:", error));
     
-    // Start timer
-    document.getElementById("time-left").textContent = `${String(Math.floor(timeLeft/60)).padStart(2, '0')}:${String(timeLeft%60).padStart(2, '0')}`;
-    document.getElementById("timer").classList.remove("hidden");
-
-    startTimer();
+    
 }
 
 function startTimer(){
@@ -187,8 +187,8 @@ function submitQuiz(e){
     
 }
 
-function checkAnswers(answers){
-    fetch("../php/check_answers.php", {
+async function checkAnswers(answers){
+    await fetch("../php/check_answers.php", {
         method: "POST",
         headers:{
             "Content-Type": "application/json"
@@ -229,10 +229,11 @@ function checkAnswers(answers){
     .catch(err => {
         console.error("Submission Error: ", err);
     });
+
 }
 
 // End the quiz
-function endQuiz(){
+async function endQuiz(){
     clearInterval(timerInterval);
     document.getElementById("timer").classList.add("hidden");
     document.getElementById("submit-btn").classList.add("hidden");
@@ -269,6 +270,7 @@ function endQuiz(){
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
 }
 
 function shuffle(array) {
@@ -284,18 +286,18 @@ function shuffle(array) {
     }
 }
 
-function animateContentUpdate(updateFunction) {
+async function animateContentUpdate(updateFunction) {
     const container = document.getElementById("quiz-container");
 
     container.classList.add('animate__animated', 'animate__fadeOut');
 
-    container.addEventListener('animationend', function handler() {
-        container.classList.remove('animate__fadeOut');
-
+    container.addEventListener('animationend', async function handler() {
+        
+        container.removeEventListener('animationend', handler);
         if (typeof updateFunction === "function") {
-            updateFunction();
+            await updateFunction();
         }
-
+        container.classList.remove('animate__fadeOut');
         container.classList.add('animate__fadeIn');
 
         container.addEventListener('animationend', function innerHandler() {
@@ -303,7 +305,6 @@ function animateContentUpdate(updateFunction) {
             container.removeEventListener('animationend', innerHandler);
         });
 
-        container.removeEventListener('animationend', handler);
     });
 }
 
